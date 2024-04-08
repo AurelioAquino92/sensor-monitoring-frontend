@@ -29,10 +29,10 @@ export default function TabelaDeEventos({ eventos, selectedEvent, setSelectedEve
     <Card className="grow flex flex-col">
       <CardHeader className="px-7">
         <CardTitle>📳 Tabela de Eventos de Dispositivos</CardTitle>
-        <CardDescription>Todos os eventos registrados estão abaixo</CardDescription>
+        <CardDescription>Selecione um dos eventos abaixo</CardDescription>
       </CardHeader>
       <ScrollArea className="grow h-40">
-        <CardContent>
+        <CardContent className="pt-2 md:pt-0">
           <Table>
             <TableHeader>
               <TableRow>
@@ -46,7 +46,7 @@ export default function TabelaDeEventos({ eventos, selectedEvent, setSelectedEve
                   <TableCell>
                     <div className="font-medium">{evento.idDispositivo}</div>
                   </TableCell>
-                  <TableCell className="hidden sm:table-cell">{dateFormatter(evento.timestamp.toDate())}</TableCell>
+                  <TableCell>{dateFormatter(evento.timestamp.toDate())}</TableCell>
                 </TableRow>
               )}
             </TableBody>

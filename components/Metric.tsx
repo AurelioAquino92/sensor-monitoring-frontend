@@ -15,7 +15,7 @@ export default function Metric({title, msg} : MetricProps) {
     <Card className="grow pb-2">
       <CardHeader className="pb-2">
         <CardDescription>{title}</CardDescription>
-        <CardTitle className="text-2xl">{msg ? msg : '-'}</CardTitle>
+        <CardTitle className="text-xl md:text-2xl">{msg ? msg : '-'}</CardTitle>
       </CardHeader>
     </Card>
   )
