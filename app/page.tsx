@@ -41,9 +41,9 @@ export default function Home() {
           ATM
         </div>
         <div className="hidden md:flex flex-col gap-5 pl-5">
-          <button className="flex justify-start items-center gap-2 text-blue-500 font-bold bg-white text-transparent pl-5 py-2 rounded-l-full max-h-10">
-            <Gauge size={25} className="max-h-full" />
-            <span className="hidden md:flex">
+          <button className="flex justify-start items-center gap-2 bg-white text-transparent pl-5 py-2 rounded-l-full max-h-10">
+            <Gauge size={25} className="text-blue-600 max-h-full" />
+            <span className="hidden md:flex text-blue-600 font-bold">
               Painel
             </span>
           </button>
