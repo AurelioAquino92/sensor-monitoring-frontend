@@ -11,12 +11,12 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Grafico from "@/components/Grafico";
 import { dateFormatter } from "@/utils/dateformatter";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Home() {
   const q = query(collection(firebase, 'eventos'), orderBy('timestamp', 'desc'))
   const [docsSnapshot, loading, error] = useCollection(q)
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null)
+  const [autoReload, setAutoReload] = useState(true)
 
   const eventos = docsSnapshot?.docs.map((doc): EventoProps => ({
     idEvent: doc.id,
@@ -27,9 +27,9 @@ export default function Home() {
     vz: doc.data().vz
   }))
 
-  let eventoSelecionado = docsSnapshot?.docs.find((doc) => doc.id == selectedEvent)?.data()
+  let eventoSelecionado = docsSnapshot?.docs.find((doc) => doc.id == selectedEvent)?.data() as any
   let maxValue = 0
-  if (eventoSelecionado) {
+  if (!autoReload && eventoSelecionado) {
     const values = [...eventoSelecionado.vx, ...eventoSelecionado.vy, ...eventoSelecionado.vz]
     maxValue = values.reduce((acc, current) => Math.max(acc, current))
   } else {
@@ -73,7 +73,13 @@ export default function Home() {
           </div>
         }
         {eventos &&
-          <TabelaDeEventos eventos={eventos} selectedEvent={selectedEvent} setSelectedEvent={(id) => setSelectedEvent(id)} />
+          <TabelaDeEventos
+            eventos={eventos}
+            selectedEvent={selectedEvent}
+            autoReload={autoReload}
+            setAutoReload={(status) => setAutoReload(!status)}
+            setSelectedEvent={(id) => setSelectedEvent(id)}
+          />
         }
       </div>
     </main>
