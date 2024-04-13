@@ -35,7 +35,7 @@ export default function TabelaDeEventos({ eventos, selectedEvent, setSelectedEve
         <CardDescription>Selecione um dos eventos abaixo</CardDescription>
         <div className="flex gap-2 pt-2 items-center justify-end">
           <CardDescription>Auto Reload</CardDescription>
-          <Switch checked={autoReload} onCheckedChange={() => setAutoReload(autoReload)}/>
+          <Switch checked={autoReload} onCheckedChange={() => setAutoReload(autoReload)} />
         </div>
       </CardHeader>
       <ScrollArea className="grow h-96">
@@ -49,7 +49,14 @@ export default function TabelaDeEventos({ eventos, selectedEvent, setSelectedEve
             </TableHeader>
             <TableBody>
               {eventos.map((evento, idx) =>
-                <TableRow key={idx} className={`${selectedEvent == evento.idEvent ? 'bg-accent' : ''}`} onClick={() => setSelectedEvent(evento.idEvent)}>
+                <TableRow
+                  key={idx}
+                  className={`${selectedEvent == evento.idEvent ? 'bg-accent' : ''}`}
+                  onClick={() => {
+                    setSelectedEvent(evento.idEvent)
+                    setAutoReload(true)
+                  }}
+                >
                   <TableCell>
                     <div className="font-medium">{evento.idDispositivo}</div>
                   </TableCell>
