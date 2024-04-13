@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Grafico from "@/components/Grafico";
 import { dateFormatter } from "@/utils/dateformatter";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Home() {
   const q = query(collection(firebase, 'eventos'), orderBy('timestamp', 'desc'))
@@ -26,18 +27,20 @@ export default function Home() {
     vz: doc.data().vz
   }))
 
-  const eventoSelecionado = docsSnapshot?.docs.find((doc) => doc.id == selectedEvent)?.data()
+  let eventoSelecionado = docsSnapshot?.docs.find((doc) => doc.id == selectedEvent)?.data()
   let maxValue = 0
   if (eventoSelecionado) {
     const values = [...eventoSelecionado.vx, ...eventoSelecionado.vy, ...eventoSelecionado.vz]
     maxValue = values.reduce((acc, current) => Math.max(acc, current))
+  } else {
+    eventoSelecionado = docsSnapshot?.docs[0].data()
   }
 
   return (
     <main className="flex flex-col md:flex-row min-h-screen items-start justify-between p-0 bg-white font-sans">
       <nav className="flex flex-col gap-8 bg-blue-500 md:min-h-screen md:w-1/4 w-full md:max-w-60">
         <div className="flex bg-blue-600/20 justify-center items-center p-5 font-bold gap-2 text-white">
-          <Triangle size={32} />
+          <Triangle size={32} weight="duotone" />
           ATM
         </div>
         <div className="hidden md:flex flex-col gap-5 pl-5">
@@ -49,30 +52,33 @@ export default function Home() {
           </button>
         </div>
       </nav>
-      <div className="flex flex-col grow p-2 md:p-10 gap-4 min-h-screen max-h-screen overflow-auto md:overflow-hidden">
-        {eventoSelecionado &&
-          <div className="flex flex-col gap-4 basis-1/2">
-            <div className="flex gap-4 justify-around">
-              <Metric title={'⚙ Máquina'} msg={eventoSelecionado.id} />
-              <Metric title={'⏲ Hora'} msg={dateFormatter(eventoSelecionado.timestamp.toDate())} />
-              <Metric title={'⬆ Valor Máximo'} msg={maxValue.toString()} />
+      <ScrollArea className="grow">
+
+        <div className="flex flex-col grow p-2 md:p-10 gap-4 min-h-screen max-h-screen overflow-auto">
+          {eventoSelecionado &&
+            <div className="flex flex-col gap-4 basis-1/2">
+              <div className="flex gap-4 justify-around">
+                <Metric title={'⚙ Máquina'} msg={eventoSelecionado.id} />
+                <Metric title={'⏲ Hora'} msg={dateFormatter(eventoSelecionado.timestamp.toDate())} />
+                <Metric title={'⬆ Valor Máximo'} msg={maxValue.toString()} />
+              </div>
+              <div className="grow">
+                <Card>
+                  <CardHeader className="text-center p-2">Histórico</CardHeader>
+                  <CardContent className="flex flex-col md:flex-row gap-5">
+                    <Grafico title="Aceleração em X" values={eventoSelecionado.vx} />
+                    <Grafico title="Aceleração em Y" values={eventoSelecionado.vy} />
+                    <Grafico title="Aceleração em Z" values={eventoSelecionado.vz} />
+                  </CardContent>
+                </Card>
+              </div>
             </div>
-            <div className="grow">
-              <Card>
-                <CardHeader className="text-center p-2">Histórico</CardHeader>
-                <CardContent className="flex flex-col md:flex-row gap-5">
-                  <Grafico title="Aceleração em X" values={eventoSelecionado.vx} />
-                  <Grafico title="Aceleração em Y" values={eventoSelecionado.vy} />
-                  <Grafico title="Aceleração em Z" values={eventoSelecionado.vz} />
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        }
-        {eventos &&
-          <TabelaDeEventos eventos={eventos} selectedEvent={selectedEvent} setSelectedEvent={(id) => setSelectedEvent(id)} />
-        }
-      </div>
+          }
+          {eventos &&
+            <TabelaDeEventos eventos={eventos} selectedEvent={selectedEvent} setSelectedEvent={(id) => setSelectedEvent(id)} />
+          }
+        </div>
+      </ScrollArea>
     </main>
   );
 }
