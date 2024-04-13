@@ -28,12 +28,14 @@ export default function Home() {
   }))
 
   let eventoSelecionado = docsSnapshot?.docs.find((doc) => doc.id == selectedEvent)?.data() as any
+  if (autoReload) {
+    eventoSelecionado = docsSnapshot?.docs[0].data()
+  }
+
   let maxValue = 0
-  if (!autoReload && eventoSelecionado) {
+  if (eventoSelecionado) {
     const values = [...eventoSelecionado.vx, ...eventoSelecionado.vy, ...eventoSelecionado.vz]
     maxValue = values.reduce((acc, current) => Math.max(acc, Math.abs(current)))
-  } else {
-    eventoSelecionado = docsSnapshot?.docs[0].data()
   }
 
   return (

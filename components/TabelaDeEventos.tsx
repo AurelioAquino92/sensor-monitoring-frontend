@@ -35,7 +35,10 @@ export default function TabelaDeEventos({ eventos, selectedEvent, setSelectedEve
         <CardDescription>Selecione um dos eventos abaixo</CardDescription>
         <div className="flex gap-2 pt-2 items-center justify-end">
           <CardDescription>Auto Reload</CardDescription>
-          <Switch checked={autoReload} onCheckedChange={() => setAutoReload(autoReload)} />
+          <Switch checked={autoReload} onCheckedChange={() => {
+            setAutoReload(autoReload)
+            if (autoReload && !selectedEvent) setSelectedEvent(eventos[0].idEvent)
+          }} />
         </div>
       </CardHeader>
       <ScrollArea className="grow h-96">
