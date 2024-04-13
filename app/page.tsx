@@ -31,7 +31,7 @@ export default function Home() {
   let maxValue = 0
   if (!autoReload && eventoSelecionado) {
     const values = [...eventoSelecionado.vx, ...eventoSelecionado.vy, ...eventoSelecionado.vz]
-    maxValue = values.reduce((acc, current) => Math.max(acc, current))
+    maxValue = values.reduce((acc, current) => Math.max(acc, Math.abs(current)))
   } else {
     eventoSelecionado = docsSnapshot?.docs[0].data()
   }
