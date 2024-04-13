@@ -31,7 +31,7 @@ export default function TabelaDeEventos({ eventos, selectedEvent, setSelectedEve
         <CardTitle>📳 Tabela de Eventos de Dispositivos</CardTitle>
         <CardDescription>Selecione um dos eventos abaixo</CardDescription>
       </CardHeader>
-      <ScrollArea className="grow h-40">
+      <ScrollArea className="grow h-96">
         <CardContent className="pt-2 md:pt-0">
           <Table>
             <TableHeader>

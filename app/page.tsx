@@ -52,33 +52,30 @@ export default function Home() {
           </button>
         </div>
       </nav>
-      <ScrollArea className="grow">
-
-        <div className="flex flex-col grow p-2 md:p-10 gap-4 min-h-screen max-h-screen overflow-auto">
-          {eventoSelecionado &&
-            <div className="flex flex-col gap-4 basis-1/2">
-              <div className="flex gap-4 justify-around">
-                <Metric title={'⚙ Máquina'} msg={eventoSelecionado.id} />
-                <Metric title={'⏲ Hora'} msg={dateFormatter(eventoSelecionado.timestamp.toDate())} />
-                <Metric title={'⬆ Valor Máximo'} msg={maxValue.toString()} />
-              </div>
-              <div className="grow">
-                <Card>
-                  <CardHeader className="text-center p-2">Histórico</CardHeader>
-                  <CardContent className="flex flex-col md:flex-row gap-5">
-                    <Grafico title="Aceleração em X" values={eventoSelecionado.vx} />
-                    <Grafico title="Aceleração em Y" values={eventoSelecionado.vy} />
-                    <Grafico title="Aceleração em Z" values={eventoSelecionado.vz} />
-                  </CardContent>
-                </Card>
-              </div>
+      <div className="flex flex-col grow p-2 md:p-10 gap-5 min-h-screen max-h-screen overflow-auto">
+        {eventoSelecionado &&
+          <div className="flex flex-col gap-4 basis-1/2">
+            <div className="flex gap-4 justify-around">
+              <Metric title={'⚙ Máquina'} msg={eventoSelecionado.id} />
+              <Metric title={'⏲ Hora'} msg={dateFormatter(eventoSelecionado.timestamp.toDate())} />
+              <Metric title={'⬆ Valor Máximo'} msg={maxValue.toString()} />
             </div>
-          }
-          {eventos &&
-            <TabelaDeEventos eventos={eventos} selectedEvent={selectedEvent} setSelectedEvent={(id) => setSelectedEvent(id)} />
-          }
-        </div>
-      </ScrollArea>
+            <div className="grow">
+              <Card>
+                <CardHeader className="text-center p-2">Histórico</CardHeader>
+                <CardContent className="flex flex-col md:flex-row gap-5">
+                  <Grafico title="Aceleração em X" values={eventoSelecionado.vx} />
+                  <Grafico title="Aceleração em Y" values={eventoSelecionado.vy} />
+                  <Grafico title="Aceleração em Z" values={eventoSelecionado.vz} />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        }
+        {eventos &&
+          <TabelaDeEventos eventos={eventos} selectedEvent={selectedEvent} setSelectedEvent={(id) => setSelectedEvent(id)} />
+        }
+      </div>
     </main>
   );
 }
